@@ -1,0 +1,41 @@
+<style>
+  body { font-family: Arial, sans-serif; margin: 0; background: #f6f7fb; }
+  .topbar { background: #0f172a; color: #fff; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .brand { font-weight: 700; letter-spacing: 0.2px; }
+  .nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .nav a, .nav button { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,0.25); padding: 8px 10px; border-radius: 8px; text-decoration: none; cursor: pointer; }
+  .nav form { display: inline; }
+  .container { max-width: 980px; margin: 18px auto; padding: 0 14px; }
+  .card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 6px 20px rgba(15,23,42,0.06); }
+  h1, h2 { margin: 0 0 12px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: left; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .col { flex: 1; min-width: 280px; }
+  .field { margin-bottom: 12px; }
+  label { display: block; margin-bottom: 6px; color: #334155; font-weight: 600; }
+  input, select, textarea { width: 100%; padding: 10px; border: 1px solid #dbe2ff; border-radius: 10px; background: #fbfcff; }
+  .btn { background: #2563eb; border: none; color: #fff; padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; }
+  .btn.secondary { background: #334155; }
+  .msg { padding: 10px 12px; border-radius: 10px; margin-bottom: 12px; }
+  .msg.ok { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+  .msg.err { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+  .muted { color: #64748b; }
+</style>
+
+<header class="topbar">
+  <div class="brand">Student Management System</div>
+  <div class="nav">
+    <% if (currentUser) { %>
+      <span class="muted">Logged in as <%= currentUser.name %> (<%= currentUser.role %>)</span>
+      <a href="/dashboard">Dashboard</a>
+      <form method="POST" action="/logout">
+        <button type="submit">Logout</button>
+      </form>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </div>
+</header>
+

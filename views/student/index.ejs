@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Student Dashboard</title>
+  </head>
+  <body>
+    <%- include("../partials/header") %>
+    <div class="container">
+      <div class="card" style="margin-bottom:14px;">
+        <h2>Student Dashboard</h2>
+        <% if (message) { %>
+          <div class="msg ok"><%= message %></div>
+        <% } %>
+        <% if (error) { %>
+          <div class="msg err"><%= error %></div>
+        <% } %>
+      </div>
+
+      <div class="row">
+        <div class="col card">
+          <h2>Your Subjects</h2>
+          <% if (subjects.length === 0) { %>
+            <p class="muted">No subjects yet. Ask your teacher to enroll you.</p>
+          <% } else { %>
+            <table>
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Teacher ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% subjects.forEach(function(sub) { %>
+                  <tr>
+                    <td><%= sub.subject_name %></td>
+                    <td class="muted"><%= sub.teacher_id %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+
+        <div class="col card">
+          <h2>Attendance Summary</h2>
+          <% if (attendance.length === 0) { %>
+            <p class="muted">No attendance records yet.</p>
+          <% } else { %>
+            <p>
+              Total classes: <b><%= attendanceSummary.totalClasses %></b>
+            </p>
+            <p>
+              Present: <b><%= attendanceSummary.present %></b>
+            </p>
+            <p>
+              Attendance: <b><%= attendanceSummary.percentage %>%</b>
+            </p>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:14px;">
+        <div class="col card">
+          <h2>Marks</h2>
+          <% if (marks.length === 0) { %>
+            <p class="muted">No marks yet.</p>
+          <% } else { %>
+            <table>
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Exam</th>
+                  <th>Marks</th>
+                  <th>Teacher</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% marks.forEach(function(m) { %>
+                  <tr>
+                    <td><%= m.subject_name %></td>
+                    <td><%= m.exam_type %></td>
+                    <td><%= m.marks %></td>
+                    <td class="muted"><%= m.teacher_name %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+
+        <div class="col card">
+          <h2>Attendance Records</h2>
+          <% if (attendance.length === 0) { %>
+            <p class="muted">No attendance records yet.</p>
+          <% } else { %>
+            <table>
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% attendance.forEach(function(a) { %>
+                  <tr>
+                    <td><%= a.subject_name %></td>
+                    <td><%= a.class_date.toISOString ? a.class_date.toISOString().slice(0,10) : a.class_date %></td>
+                    <td><%= a.status %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

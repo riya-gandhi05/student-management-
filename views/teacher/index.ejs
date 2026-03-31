@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Teacher Dashboard</title>
+  </head>
+  <body>
+    <%- include("../partials/header") %>
+    <div class="container">
+      <div class="card" style="margin-bottom:14px;">
+        <h2>Teacher Dashboard</h2>
+        <% if (message) { %>
+          <div class="msg ok"><%= message %></div>
+        <% } %>
+        <% if (error) { %>
+          <div class="msg err"><%= error %></div>
+        <% } %>
+      </div>
+
+      <div class="row">
+        <div class="col card">
+          <h2>Add Subject</h2>
+          <form method="POST" action="/teacher/subjects">
+            <div class="field">
+              <label>Subject name</label>
+              <input type="text" name="subjectName" required />
+            </div>
+            <button class="btn" type="submit">Create Subject</button>
+          </form>
+        </div>
+
+        <div class="col card">
+          <h2>Enroll Student (to your subject)</h2>
+          <form method="POST" action="/teacher/enroll">
+            <div class="field">
+              <label>Select Student</label>
+              <select name="studentId" required>
+                <option value="" disabled selected>Select a student</option>
+                <% students.forEach(function(s) { %>
+                  <option value="<%= s.id %>"><%= s.name %> (<%= s.email %>)</option>
+                <% }) %>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Select Subject</label>
+              <select name="subjectId" required <%= subjects.length === 0 ? 'disabled' : '' %>>
+                <option value="" disabled selected>
+                  <% if (subjects.length === 0) { %>Add a subject first<% } else { %>Select a subject<% } %>
+                </option>
+                <% subjects.forEach(function(sub) { %>
+                  <option value="<%= sub.id %>"><%= sub.subject_name %></option>
+                <% }) %>
+              </select>
+            </div>
+
+            <button class="btn secondary" type="submit" <%= subjects.length === 0 ? 'disabled' : '' %>>
+              Enroll
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:14px;">
+        <div class="col card">
+          <h2>Add Marks</h2>
+          <form method="POST" action="/teacher/marks">
+            <div class="field">
+              <label>Student</label>
+              <select name="studentId" required>
+                <option value="" disabled selected>Select a student</option>
+                <% students.forEach(function(s) { %>
+                  <option value="<%= s.id %>"><%= s.name %> (<%= s.email %>)</option>
+                <% }) %>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Subject</label>
+              <select name="subjectId" required <%= subjects.length === 0 ? 'disabled' : '' %>>
+                <option value="" disabled selected>
+                  <% if (subjects.length === 0) { %>Add a subject first<% } else { %>Select a subject<% } %>
+                </option>
+                <% subjects.forEach(function(sub) { %>
+                  <option value="<%= sub.id %>"><%= sub.subject_name %></option>
+                <% }) %>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Exam type (example: Midterm, Final)</label>
+              <input type="text" name="examType" placeholder="Midterm" required />
+            </div>
+
+            <div class="field">
+              <label>Marks</label>
+              <input type="number" name="marks" min="0" required />
+            </div>
+
+            <button class="btn" type="submit" <%= subjects.length === 0 ? 'disabled' : '' %>>
+              Save Marks
+            </button>
+          </form>
+        </div>
+
+        <div class="col card">
+          <h2>Mark Attendance</h2>
+          <form method="POST" action="/teacher/attendance">
+            <div class="field">
+              <label>Student</label>
+              <select name="studentId" required>
+                <option value="" disabled selected>Select a student</option>
+                <% students.forEach(function(s) { %>
+                  <option value="<%= s.id %>"><%= s.name %> (<%= s.email %>)</option>
+                <% }) %>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Subject</label>
+              <select name="subjectId" required <%= subjects.length === 0 ? 'disabled' : '' %>>
+                <option value="" disabled selected>
+                  <% if (subjects.length === 0) { %>Add a subject first<% } else { %>Select a subject<% } %>
+                </option>
+                <% subjects.forEach(function(sub) { %>
+                  <option value="<%= sub.id %>"><%= sub.subject_name %></option>
+                <% }) %>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Class date</label>
+              <input type="date" name="classDate" required />
+            </div>
+
+            <div class="field">
+              <label>Status</label>
+              <select name="status" required>
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+              </select>
+            </div>
+
+            <button class="btn secondary" type="submit" <%= subjects.length === 0 ? 'disabled' : '' %>>
+              Save Attendance
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <h2>Your Subjects</h2>
+        <% if (subjects.length === 0) { %>
+          <p class="muted">You haven't created any subjects yet.</p>
+        <% } else { %>
+          <table>
+            <thead>
+              <tr>
+                <th>Subject ID</th>
+                <th>Subject Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% subjects.forEach(function(sub) { %>
+                <tr>
+                  <td><%= sub.id %></td>
+                  <td><%= sub.subject_name %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>
+

@@ -1,19 +1,29 @@
-const mongoose = require('mongoose');
+const { pool } = require("../config/db");
 
-const enrollmentSchema = new mongoose.Schema({
+async function enrollStudentToSubject({ studentId, subjectId }) {
+  const [result] = await pool.query(
+    `INSERT INTO enrollments (student_id, subject_id)
+     VALUES (?, ?)
+     ON DUPLICATE KEY UPDATE id = id`,
+    [studentId, subjectId]
+  );
 
-    student: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
+  return { affectedRows: result.affectedRows };
+}
 
-    subject: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Subject",
-        required: true
-    }
+async function listEnrolledStudentsForSubject(subjectId) {
+  const [rows] = await pool.query(
+    `SELECT u.id, u.name, u.email
+     FROM enrollments e
+     JOIN users u ON u.id = e.student_id
+     WHERE e.subject_id = ? AND u.role = 'student'
+     ORDER BY u.name ASC`,
+    [subjectId]
+  );
+  return rows;
+}
 
-}, { timestamps: true });
-
-module.exports = mongoose.model("Enrollment", enrollmentSchema);
+module.exports = {
+  enrollStudentToSubject,
+  listEnrolledStudentsForSubject,
+};

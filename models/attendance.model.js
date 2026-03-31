@@ -1,38 +1,33 @@
-const mongoose = require('mongoose');
+const { pool } = require("../config/db");
 
-const attendanceSchema = new mongoose.Schema({
+async function upsertAttendance({ studentId, subjectId, teacherId, classDate, status }) {
+  const [result] = await pool.query(
+    `INSERT INTO attendance (student_id, subject_id, teacher_id, class_date, status)
+     VALUES (?, ?, ?, ?, ?)
+     ON DUPLICATE KEY UPDATE
+       status = VALUES(status),
+       teacher_id = VALUES(teacher_id)`,
+    [studentId, subjectId, teacherId, classDate, status]
+  );
 
-    student: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
+  return { affectedRows: result.affectedRows };
+}
 
-    subject: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Subject",
-        required: true
-    },
+async function getAttendanceForStudent(studentId) {
+  const [rows] = await pool.query(
+    `SELECT
+      s.id AS subject_id,
+      s.subject_name,
+      a.class_date,
+      a.status
+     FROM attendance a
+     JOIN subjects s ON s.id = a.subject_id
+     JOIN enrollments e ON e.student_id = a.student_id AND e.subject_id = a.subject_id
+     WHERE a.student_id = ?
+     ORDER BY s.subject_name ASC, a.class_date DESC`,
+    [studentId]
+  );
+  return rows;
+}
 
-    date: {
-        type: Date,
-        required: true
-    },
-
-    status: {
-        type: String,
-        enum: ["Present", "Absent"],
-        required: true
-    }
-
-}, { timestamps: true });
-
-/* Unique combination:
-   student + subject + date
-*/
-attendanceSchema.index(
-    { student: 1, subject: 1, date: 1 },
-    { unique: true }
-);
-
-module.exports = mongoose.model("Attendance", attendanceSchema);
+module.exports = { upsertAttendance, getAttendanceForStudent };

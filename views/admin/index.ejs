@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+  </head>
+  <body>
+    <%- include("../partials/header") %>
+    <div class="container">
+      <div class="card" style="margin-bottom:14px;">
+        <h2>Admin Dashboard</h2>
+        <% if (message) { %>
+          <div class="msg ok"><%= message %></div>
+        <% } %>
+        <% if (error) { %>
+          <div class="msg err"><%= error %></div>
+        <% } %>
+      </div>
+
+      <div class="card">
+        <h2>Manage Users</h2>
+        <% if (users.length === 0) { %>
+          <p class="muted">No users found.</p>
+        <% } else { %>
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach(function(u) { %>
+                <tr>
+                  <td><%= u.name %> (#<%= u.id %>)</td>
+                  <td><%= u.email %></td>
+                  <td><%= u.role %></td>
+                  <td class="muted"><%= u.created_at && u.created_at.toISOString ? u.created_at.toISOString().slice(0,19).replace('T',' ') : (u.created_at || '') %></td>
+                  <td>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                      <form method="POST" action="/admin/users/update-role">
+                        <input type="hidden" name="userId" value="<%= u.id %>" />
+                        <select name="role" style="width:170px; margin-bottom:8px;">
+                          <option value="student" <%= u.role === 'student' ? 'selected' : '' %>>student</option>
+                          <option value="teacher" <%= u.role === 'teacher' ? 'selected' : '' %>>teacher</option>
+                          <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>admin</option>
+                        </select>
+                        <div>
+                          <button class="btn secondary" type="submit">Update Role</button>
+                        </div>
+                      </form>
+
+                      <form method="POST" action="/admin/users/delete">
+                        <input type="hidden" name="userId" value="<%= u.id %>" />
+                        <button class="btn secondary" type="submit" onclick="return confirm('Delete this user?')">Delete</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>
+
