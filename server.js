@@ -57,4 +57,4 @@ initDb()
     console.error("Failed to initialize database:", err);
     process.exit(1);
   });
-//  console.log("FINAL WEBHOOK TEST 🚀");
+//  console.log("FINAL WEBHOOK TEST ");
