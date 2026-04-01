@@ -58,4 +58,3 @@ initDb()
     process.exit(1);
   });
 //  console.log("FINAL WEBHOOK TEST 🚀");
-// console.log("fix git url test");

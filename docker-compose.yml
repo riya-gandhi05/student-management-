@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   app:
     build: .
@@ -8,6 +9,11 @@ services:
       - mysql
     environment:
       DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: student_management
+    command: sh -c "sleep 20 && node server.js"
 
   mysql:
     image: mysql:8
