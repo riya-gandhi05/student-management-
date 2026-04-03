@@ -39,7 +39,8 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    - /var/jenkins_home/workspace/student-teacher-devops/prometheus.yml:/etc/prometheus/prometheus.yml
+   
 
   grafana:
     image: grafana/grafana
