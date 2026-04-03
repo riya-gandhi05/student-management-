@@ -15,19 +15,24 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: fsdb
-    # ports:
-    #   - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
   jenkins:
     image: jenkins/jenkins:lts
+    user: root                  # 🔥 IMPORTANT
+    privileged: true            # 🔥 IMPORTANT
     ports:
       - "5000:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
-       - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock   # 🔥 FIXED INDENT
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
 
   prometheus:
     image: prom/prometheus
