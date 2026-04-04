@@ -17,25 +17,10 @@ pipeline {
         stage('Fix Prometheus') {
             steps {
                 sh '''
-                    if [ -d prometheus.yml ]; then
-                        rm -rf prometheus.yml
-                    fi
-                    if [ ! -f prometheus.yml ]; then
-                        cat > prometheus.yml << 'EOF'
-global:
-  scrape_interval: 15s
-
-scrape_configs:
-  - job_name: prometheus
-    static_configs:
-      - targets:
-          - localhost:9090
-  - job_name: student-app
-    static_configs:
-      - targets:
-          - app:4000
-EOF
-                    fi
+                    rm -rf prometheus.yml
+                    printf 'global:\\n  scrape_interval: 15s\\n\\nscrape_configs:\\n  - job_name: prometheus\\n    static_configs:\\n      - targets:\\n          - localhost:9090\\n  - job_name: student-app\\n    static_configs:\\n      - targets:\\n          - app:4000\\n' > prometheus.yml
+                    echo "prometheus.yml created:"
+                    cat prometheus.yml
                 '''
             }
         }
