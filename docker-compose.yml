@@ -56,7 +56,7 @@ services:
   grafana:
     image: grafana/grafana:latest
     ports:
-      - "3022:3000"
+      - "3023:3000"
     restart: unless-stopped
     networks:
       - app-network
