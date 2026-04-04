@@ -11,19 +11,19 @@ pipeline {
 
         stage('Clean Docker') {
             steps {
-                bat 'docker-compose down'
+                sh 'docker-compose down || true'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t student-app .'
+                sh 'docker build -t student-app .'
             }
         }
 
         stage('Run Docker Compose') {
             steps {
-                bat 'docker-compose up -d'
+                sh 'docker-compose up -d'
             }
         }
     }

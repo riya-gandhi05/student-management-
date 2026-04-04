@@ -19,15 +19,17 @@ services:
       - mysql_data:/var/lib/mysql
 
   jenkins:
-    image: jenkins/jenkins:lts
-    user: root                  # 🔥 IMPORTANT
-    privileged: true            # 🔥 IMPORTANT
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    user: root
+    privileged: true
     ports:
       - "5001:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock   # 🔥 FIXED INDENT
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
     dns:
@@ -37,10 +39,7 @@ services:
   prometheus:
     image: prom/prometheus
     ports:
-      - "9091:9090"
-    # volumes:
-    # - /var/jenkins_home/workspace/student-teacher-devops/prometheus.yml:/etc/prometheus/prometheus.yml
-   
+      - "9092:9090"
 
   grafana:
     image: grafana/grafana
