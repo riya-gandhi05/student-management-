@@ -23,7 +23,7 @@ pipeline {
 
         stage('Run Docker Compose') {
             steps {
-                sh 'docker-compose -p fsdbproject up -d --build'
+                sh 'docker-compose -p fsdbproject up -d --build app mysql prometheus grafana'
             }
         }
 
