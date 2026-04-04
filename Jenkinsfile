@@ -11,7 +11,7 @@ pipeline {
 
         stage('Clean Docker') {
             steps {
-                sh 'docker-compose down || true'
+                sh 'docker-compose down -v --remove-orphans || true'
             }
         }
 
@@ -23,7 +23,7 @@ pipeline {
 
         stage('Run Docker Compose') {
             steps {
-                sh 'docker-compose up -d'
+                sh 'docker-compose up -d --remove-orphans'
             }
         }
     }
