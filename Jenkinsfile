@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     stages {
-
         stage('Clone') {
             steps {
                 git branch: 'main', url: 'https://github.com/riya-gandhi05/Student-Teacher-Devops-.git'
@@ -23,7 +22,7 @@ pipeline {
 
         stage('Run Docker Compose') {
             steps {
-                sh 'docker-compose up -d --remove-orphans'
+                sh 'docker-compose up -d --build'
             }
         }
     }
