@@ -3,7 +3,6 @@ version: '3.8'
 services:
   app:
     build: .
-    container_name: student-app
     ports:
       - "4000:4000"
     depends_on:
@@ -17,7 +16,6 @@ services:
 
   mysql:
     image: mysql:8
-    container_name: mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -36,7 +34,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.jenkins
-    container_name: jenkins
     ports:
       - "5003:8080"
     volumes:
@@ -50,17 +47,17 @@ services:
 
   prometheus:
     image: prom/prometheus
-    container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/etc/prometheus
+    #   - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
     networks:
       - app-network
 
   grafana:
     image: grafana/grafana
-    container_name: grafana
     ports:
       - "3000:3000"
     networks:
