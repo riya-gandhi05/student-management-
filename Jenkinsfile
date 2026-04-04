@@ -6,7 +6,7 @@ pipeline {
         stage('Clean Docker') {
             steps {
                 sh '''
-                docker-compose down --remove-orphans
+                docker-compose -p fsdbproject down --remove-orphans
                 docker system prune -f
                 '''
             }
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Run Docker Compose') {
             steps {
-                sh 'docker-compose up -d --build'
+                sh 'docker-compose -p fsdbproject up -d --build'
             }
         }
 
