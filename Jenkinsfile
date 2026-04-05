@@ -14,8 +14,7 @@ pipeline {
 
         stage('Run Docker Compose') {
             steps {
-                sh "docker-compose -p fsdbproject down"
-                sh "docker-compose -p fsdbproject up -d"
+                sh "docker-compose -p fsdbproject up -d --build"
             }
         }
 
