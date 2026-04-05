@@ -17,7 +17,7 @@ pipeline {
                 sh """
                 docker stop fsdbproject-app || true
                 docker rm fsdbproject-app || true
-                docker-compose up -d app
+                docker-compose -p fsdbproject up -d app
                 """
             }
         }

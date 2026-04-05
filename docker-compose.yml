@@ -1,3 +1,5 @@
+name: fsdbproject
+
 services:
   app:
     image: student-app:latest
@@ -62,7 +64,6 @@ services:
 
 volumes:
   mysql_data:
-  jenkins_data:
   jenkins_home:
   prometheus_data:
 
