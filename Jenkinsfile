@@ -15,8 +15,8 @@ pipeline {
         stage('Deploy (FAST)') {
             steps {
                 sh """
-                docker-compose stop app
-                docker-compose rm -f app
+                docker stop fsdbproject-app || true
+                docker rm fsdbproject-app || true
                 docker-compose up -d app
                 """
             }
