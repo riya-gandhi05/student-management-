@@ -30,7 +30,7 @@ pipeline {
         stage('Configure Prometheus') {
             steps {
                 sh '''
-                docker exec fsdbproject-prometheus-1 sh -c "cat > /etc/prometheus/prometheus.yml << EOF
+                docker exec fsdbproject-${BUILD_NUMBER}-prometheus-1 sh -c "cat > /etc/prometheus/prometheus.yml << EOF
 global:
   scrape_interval: 15s
 
@@ -44,7 +44,7 @@ scrape_configs:
       - targets:
           - app:4000
 EOF"
-                docker exec fsdbproject-prometheus-1 kill -HUP 1
+                docker exec fsdbproject-${BUILD_NUMBER}-prometheus-1 kill -HUP 1
                 '''
             }
         }
