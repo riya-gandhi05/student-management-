@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Build Image') {
             steps {
                 sh """
@@ -15,7 +16,7 @@ pipeline {
             }
         }
 
-        stage('Deploy (FAST)') {
+        stage('Deploy') {
             steps {
                 sh """
                 docker stop fsdbproject-app || true
