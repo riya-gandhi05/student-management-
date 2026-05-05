@@ -2,11 +2,10 @@ pipeline {
     agent any
 
     triggers {
-        githubPush()   
+        githubPush()
     }
 
     stages {
-
         stage('Build Image') {
             steps {
                 sh """
